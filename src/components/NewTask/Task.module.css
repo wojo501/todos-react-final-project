@@ -1,0 +1,28 @@
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 1rem;
+    background-color: #ccc;
+  }
+
+  .form{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  .form div{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .form input{
+    align-items: flex-start;
+  }
+
+
+  
