@@ -1,0 +1,22 @@
+.button{
+    height: 30px;
+    font-weight: bold;
+    border-radius: 5px;
+    font: inherit;
+    width: 100%;
+    color: rgb(13, 22, 29);
+    background: rgb(135, 176, 213);
+    box-shadow: 2px 2px 4px rgba(171, 13, 182, 0.26);
+    cursor: pointer;
+    margin: 1rem;
+}
+
+.button:focus {
+    outline: thick double rgb(135, 176, 213);
+  }
+
+.button:hover,
+.button:active {
+  background: rgb(80, 155, 221);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+}
