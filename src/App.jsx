@@ -14,10 +14,9 @@ function App() {
 
   const saveHandler = (savedTask) => {
     setNewTask((prevState) => {
-      return {
-        ...prevState,
-        savedTask
-      };
+      return [
+        ...prevState, savedTask
+      ];
     })
   }
 
