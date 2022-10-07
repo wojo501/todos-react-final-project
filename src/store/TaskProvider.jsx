@@ -2,30 +2,38 @@ import TaskContext from "./task-context";
 import { useReducer } from "react";
 
 const defaultTaskState = {
-    items: [{ id: 0, text: "DEFAULT" }]
+    items: []
 };
 
 const taskReducer = (state, action) => {
     console.log(action.type)
     if (action.type === "ADD") {
         const updatedItems = state.items.concat(action.item);
+        console.log("updatedItems ", updatedItems)
         return {
             items: updatedItems
         }
     };
+
     if (action.type === "COMPLETE") {
         console.log("STATE.ITEMS: ", state.items)
         const changedElem = state.items.find((elem) => {
             return elem.id === action.id.toString()
         })
+        console.log("found elem", changedElem)
+        console.log("TEXT", changedElem.text)
+        if (changedElem.toDo) {
+            changedElem.text = "(DONE) " + changedElem.text;
+        } else {
+            changedElem.text = changedElem.text.replace('(DONE)', '');;
+        }
+        changedElem.toDo = !changedElem.toDo
         console.log("CHANGED ELEM ", changedElem);
-        // changedElem.text = "(DONE) " + changedElem.text;
         return {
             items: state.items
         }
     }
 
-    console.log('DEFAULT STATE')
     return defaultTaskState
 }
 

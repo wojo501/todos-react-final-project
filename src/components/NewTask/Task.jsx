@@ -1,6 +1,5 @@
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import React, { useState } from 'react'
-import TaskProvider from '../../store/TaskProvider';
 import DeleteIcon from './Icons/DeleteIcon';
 import EditIcon from './Icons/EditIcon';
 import TickIcon from './Icons/TickIcon';
@@ -24,11 +23,11 @@ const Task = (props) => {
                 ) : (
                     <span>{props.text}</span>
                 )}
-                <TaskProvider>
+                <React.Fragment>
                     <DeleteIcon className={classes.icon} />
                     <EditIcon className={classes.icon} />
                     <TickIcon className={classes.icon} id={props.id} />
-                </TaskProvider>
+                </React.Fragment>
             </form>
         </li >
     )

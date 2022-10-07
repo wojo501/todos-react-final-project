@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import classes from "./Bar.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
+import TaskContext from "../../store/task-context";
 
 const Bar = (props) => {
+    const taskCtx = useContext(TaskContext);
     const [taskText, setTaskText] = useState("");
 
     const inputHandler = (event) => {
@@ -14,10 +16,11 @@ const Bar = (props) => {
         event.preventDefault();
         const taskData = {
             id: Math.random().toString(),
-            text: taskText
+            text: taskText,
+            toDo: true
         }
         console.log("SAVED TASK: ", taskData);
-        props.onSave(taskData);
+        taskCtx.addItem(taskData);
         setTaskText("");
     }
 
