@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import TaskContext from './store/task-context';
 import './App.css';
 import Bar from './components/InputBar/Bar';
 import TasksList from './components/NewTask/TasksList';
 import Card from './components/UI/Card';
+import TaskProvider from './store/TaskProvider';
 
 const DUMMY_TASK = [
   {
@@ -12,22 +14,17 @@ const DUMMY_TASK = [
 ]
 
 function App() {
-  const [newTask, setNewTask] = useState(DUMMY_TASK)
+  const taskCtx = useContext(TaskContext);
 
   const saveHandler = (savedTask) => {
-    setNewTask((prevState) => {
-      return [
-        ...prevState,
-        savedTask
-      ];
-    })
+    taskCtx.addItem(savedTask)
   }
 
 
   return (
     <div>
       <Bar onSave={saveHandler} />
-      <TasksList items={newTask} />
+      <TasksList items={taskCtx.items} />
     </div>
   );
 }

@@ -1,12 +1,14 @@
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import React, { useState } from 'react'
+import TaskProvider from '../../store/TaskProvider';
 import DeleteIcon from './Icons/DeleteIcon';
 import EditIcon from './Icons/EditIcon';
 import TickIcon from './Icons/TickIcon';
 import classes from "./Task.module.css"
 
 const Task = (props) => {
-    const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = useState(false);
+
 
     return (
         <li
@@ -22,11 +24,11 @@ const Task = (props) => {
                 ) : (
                     <span>{props.text}</span>
                 )}
-                <div>
+                <TaskProvider>
                     <DeleteIcon className={classes.icon} />
                     <EditIcon className={classes.icon} />
-                    <TickIcon className={classes.icon} />
-                </div>
+                    <TickIcon className={classes.icon} id={props.id} />
+                </TaskProvider>
             </form>
         </li >
     )

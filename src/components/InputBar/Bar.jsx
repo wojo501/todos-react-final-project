@@ -16,7 +16,7 @@ const Bar = (props) => {
             id: Math.random().toString(),
             text: taskText
         }
-        console.log("SAVED TASK: ", taskText);
+        console.log("SAVED TASK: ", taskData);
         props.onSave(taskData);
         setTaskText("");
     }
