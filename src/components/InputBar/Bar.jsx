@@ -17,7 +17,7 @@ const Bar = (props) => {
         const taskData = {
             id: Math.random().toString(),
             text: taskText,
-            toDo: true
+            toDo: true,
         }
         console.log("SAVED TASK: ", taskData);
         taskCtx.addItem(taskData);

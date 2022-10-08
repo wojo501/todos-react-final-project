@@ -3,13 +3,17 @@ import { AiFillEdit } from "react-icons/ai"
 import TaskContext from '../../../store/task-context';
 
 
-const EditIcon = () => {
+const EditIcon = (props) => {
     const taskCtx = useContext(TaskContext);
 
+    const clickHandler = (event) => {
+        event.preventDefault();
+        taskCtx.editItem(props.item);
+    }
 
     return (
         <span>
-            <AiFillEdit />
+            <AiFillEdit onClick={props.clickHandler} />
         </span>
     )
 }

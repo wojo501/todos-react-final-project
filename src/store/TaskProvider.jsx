@@ -5,32 +5,58 @@ const defaultTaskState = {
     items: []
 };
 
+
 const taskReducer = (state, action) => {
-    console.log(action.type)
+
+
+
     if (action.type === "ADD") {
         const updatedItems = state.items.concat(action.item);
-        console.log("updatedItems ", updatedItems)
         return {
             items: updatedItems
         }
     };
 
     if (action.type === "COMPLETE") {
-        console.log("STATE.ITEMS: ", state.items)
-        const changedElem = state.items.find((elem) => {
+        const changedElemIndex = state.items.findIndex((elem) => {
             return elem.id === action.id.toString()
         })
-        console.log("found elem", changedElem)
-        console.log("TEXT", changedElem.text)
-        if (changedElem.toDo) {
-            changedElem.text = "(DONE) " + changedElem.text;
+        const updatedElem = state.items[changedElemIndex]
+        if (updatedElem.toDo) {
+            updatedElem.text = "(DONE) " + updatedElem.text;
         } else {
-            changedElem.text = changedElem.text.replace('(DONE)', '');;
+            updatedElem.text = updatedElem.text.replace('(DONE)', '');;
         }
-        changedElem.toDo = !changedElem.toDo
-        console.log("CHANGED ELEM ", changedElem);
+        updatedElem.toDo = !updatedElem.toDo
+        const updatedItems = [...state.items]
+        updatedItems[changedElemIndex] = updatedElem
         return {
-            items: state.items
+            items: updatedItems
+        }
+    }
+
+    if (action.type === "DELETE") {
+        const updatedItems = state.items.filter((item) => {
+            return item.id !== action.id.toString()
+        })
+        return {
+            items: updatedItems
+        }
+    }
+
+    if (action.type === "EDIT") {
+        const editItemIndex = state.items.findIndex((elem) => {
+            return elem.id === action.item.id.toString()
+        })
+        const existingItem = state.items[editItemIndex]
+        const updatedItem = {
+            ...existingItem,
+            text: action.item.text
+        }
+        const updatedItems = [...state.items];
+        updatedItems[editItemIndex] = updatedItem;
+        return {
+            items: updatedItems
         }
     }
 
