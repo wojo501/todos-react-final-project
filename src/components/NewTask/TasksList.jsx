@@ -7,7 +7,11 @@ const TasksList = (props) => {
     const taskCtx = useContext(TaskContext);
 
     if (taskCtx.items.length === 0) {
-        return <h2>Found no tasks</h2>
+        return (
+            <div className={classes.warning}>
+                <h2>Found no tasks</h2>
+            </div>
+        )
     }
 
     return (

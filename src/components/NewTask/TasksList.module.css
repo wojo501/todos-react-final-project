@@ -2,3 +2,14 @@
    margin: 0;
    padding: 0;
 }
+
+.warning{
+   width: 100%;
+   display: inline-flex;
+}
+
+.warning h2{
+   caret-color: transparent;
+   margin-left: auto;
+   margin-right: auto;
+}

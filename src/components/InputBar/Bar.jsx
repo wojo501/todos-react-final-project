@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import classes from "./Bar.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -7,6 +7,13 @@ import TaskContext from "../../store/task-context";
 const Bar = (props) => {
     const taskCtx = useContext(TaskContext);
     const [taskText, setTaskText] = useState("");
+
+    const inputRef = useRef();
+    const clickPreventHandler = (event) => {
+        if (inputRef.current.value.trim() === "") {
+            event.preventDefault();
+        }
+    }
 
     const inputHandler = (event) => {
         setTaskText(event.target.value)
@@ -33,9 +40,11 @@ const Bar = (props) => {
                         type="text"
                         onChange={inputHandler}
                         value={taskText}
+                        ref={inputRef}
                     />
                     <Button
                         type="submit"
+                        onClick={clickPreventHandler}
                     >Add Task</Button>
                 </div>
             </form>

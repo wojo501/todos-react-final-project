@@ -6,6 +6,7 @@
 }
 
 .label {
+    caret-color: transparent;
     font-weight: bold;
     margin: 1rem;
 }

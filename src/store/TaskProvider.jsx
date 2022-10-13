@@ -29,6 +29,7 @@ const taskReducer = (state, action) => {
         }
         updatedElem.toDo = !updatedElem.toDo
         const updatedItems = [...state.items]
+        console.log(updatedElem)
         updatedItems[changedElemIndex] = updatedElem
         return {
             items: updatedItems

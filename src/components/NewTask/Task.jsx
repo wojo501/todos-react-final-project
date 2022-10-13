@@ -56,11 +56,11 @@ const Task = (props) => {
                 ) : (
                     <span>{currentTask.text}</span>
                 )}
-                <React.Fragment>
+                <div>
                     <DeleteIcon className={classes.icon} id={props.id} />
                     <EditIcon className={classes.icon} item={currentTask} clickHandler={inputHandler} />
                     <TickIcon className={classes.icon} id={props.id} />
-                </React.Fragment>
+                </div>
             </form>
         </li >
     )
