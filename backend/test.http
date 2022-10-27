@@ -1,0 +1,6 @@
+POST http://localhost:4000/app/addTask
+Content-Type: application/json
+
+{
+    "text": "sprawdzam czy serwer dziala"
+}
