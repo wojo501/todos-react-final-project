@@ -3,6 +3,7 @@ import classes from "./Bar.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import TaskContext from "../../store/task-context";
+import axios from "axios";
 
 const Bar = (props) => {
     const taskCtx = useContext(TaskContext);
@@ -26,6 +27,10 @@ const Bar = (props) => {
             text: taskText,
             toDo: true,
         }
+
+        axios.post("http://localhost:4000/app/addTask", taskData)
+            .then(response => console.log(response.data))
+
         console.log("SAVED TASK: ", taskData);
         taskCtx.addItem(taskData);
         setTaskText("");
