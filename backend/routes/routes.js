@@ -7,8 +7,20 @@ router.post('/addTask', async (request, response) => {
         const addedTask = await taskSchemaCopy.create({
             text: request.body.text
         })
-        await addedTask.save()
-        console.log("saved", addedTask)
+        const result = await addedTask.save()
+        response.json(result)
+    } catch (error) {
+        response.json(error)
+    }
+})
+
+
+
+router.get('/addTask', async (request, response) => {
+    try {
+        const tasks = await taskSchemaCopy.find()
+        response.send(tasks)
+        console.log(tasks)
     } catch (error) {
         response.json(error)
     }
