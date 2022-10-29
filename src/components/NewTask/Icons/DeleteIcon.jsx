@@ -7,6 +7,7 @@ const DeleteIcon = (props) => {
 
     const clickHandler = (event) => {
         event.preventDefault();
+
         taskCtx.deleteItem(props.id);
     }
 

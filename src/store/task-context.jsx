@@ -5,6 +5,7 @@ const TaskContext = React.createContext({
     deleteItem: (id) => { },
     addItem: (item) => { },
     completeItem: (id) => { },
+    incompleteItem: (id) => { },
     editItem: (item) => { }
 });
 

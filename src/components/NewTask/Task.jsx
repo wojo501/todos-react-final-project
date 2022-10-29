@@ -59,7 +59,7 @@ const Task = (props) => {
                 <div>
                     <DeleteIcon className={classes.icon} id={props.id} />
                     <EditIcon className={classes.icon} item={currentTask} clickHandler={inputHandler} />
-                    <TickIcon className={classes.icon} id={props.id} />
+                    <TickIcon className={classes.icon} id={props.id} toDo={currentTask.toDo} />
                 </div>
             </form>
         </li >

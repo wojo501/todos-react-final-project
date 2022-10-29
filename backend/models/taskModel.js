@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const taskSchema = new mongoose.Schema({
     id: {
         type: String,
-        default: Math.random().toString()
+        required: true
     },
     text: {
         type: String,

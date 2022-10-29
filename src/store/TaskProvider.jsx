@@ -1,14 +1,24 @@
 import TaskContext from "./task-context";
-import { useReducer } from "react";
+import { useReducer, useCallback, useEffect } from "react";
+import axios from "axios";
 
 const defaultTaskState = {
     items: []
 };
-
+// FIXME
+// change post request to delete request while deleting
+// add enum to file instead of string commands
+// fix different paths to query parameters
+// optimize task reducer, taskProvider funcion 
 
 const taskReducer = (state, action) => {
 
-
+    if (action.type === "RELOAD") {
+        console.log("DATA RELOAD")
+        return {
+            items: action.itemsArr
+        }
+    }
 
     if (action.type === "ADD") {
         const updatedItems = state.items.concat(action.item);
@@ -24,10 +34,25 @@ const taskReducer = (state, action) => {
         const updatedElem = state.items[changedElemIndex]
         if (updatedElem.toDo) {
             updatedElem.text = "(DONE) " + updatedElem.text;
-        } else {
-            updatedElem.text = updatedElem.text.replace('(DONE)', '');;
         }
-        updatedElem.toDo = !updatedElem.toDo
+        updatedElem.toDo = false;
+        const updatedItems = [...state.items]
+        console.log(updatedElem)
+        updatedItems[changedElemIndex] = updatedElem
+        return {
+            items: updatedItems
+        }
+    }
+
+    if (action.type === "INCOMPLETE") {
+        const changedElemIndex = state.items.findIndex((elem) => {
+            return elem.id === action.id.toString()
+        })
+        const updatedElem = state.items[changedElemIndex]
+        if (!updatedElem.toDo) {
+            updatedElem.text = updatedElem.text.replace("(DONE) ", "")
+        }
+        updatedElem.toDo = true;
         const updatedItems = [...state.items]
         console.log(updatedElem)
         updatedItems[changedElemIndex] = updatedElem
@@ -61,26 +86,68 @@ const taskReducer = (state, action) => {
         }
     }
 
+
+
     return defaultTaskState
 }
+
 
 const TaskProvider = (props) => {
     const [taskState, dispatchTaskAction] = useReducer(taskReducer, defaultTaskState)
 
-    const deleteItemHandler = (id) => {
+    const fetchTaskHandler = useCallback(async () => {
+        try {
+            const response = await fetch("http://localhost:4000/app/addTask")
+            if (!response.ok) {
+                throw new Error("GET error")
+            }
+            const data = await response.json()
+            return data
+
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+
+    useEffect(() => {
+        fetchTaskHandler().then((taskData) => {
+            console.log("USE EFFECT")
+            dispatchTaskAction({
+                type: "RELOAD",
+                itemsArr: taskData
+            })
+        });
+    }, []);
+
+    const deleteItemHandler = async (id) => {
         dispatchTaskAction({ type: "DELETE", id: id });
+        axios.post("http://localhost:4000/app/removeTask", { id: id })
+            .then(response => console.log(response.data))
+
     };
 
     const completeItemHandler = (id) => {
         dispatchTaskAction({ type: "COMPLETE", id: id });
+        axios.patch("http://localhost:4000/app/addTask", { id: id })
+            .then(response => console.log(response.data))
+    };
+
+    const incompleteItemHandler = (id) => {
+        dispatchTaskAction({ type: "INCOMPLETE", id: id });
+        axios.patch("http://localhost:4000/app/addTask", { id: id })
+            .then(response => console.log(response.data))
     };
 
     const editItemHandler = (item) => {
         dispatchTaskAction({ type: "EDIT", item: item });
+        axios.patch("http://localhost:4000/app/removeTask", { text: item.text, id: item.id })
+            .then(response => console.log(response.data))
     };
 
     const addItemHandler = (item) => {
         dispatchTaskAction({ type: "ADD", item: item });
+        axios.post("http://localhost:4000/app/addTask", item)
+            .then(response => console.log(response.data))
     }
 
     const taskContext = {
@@ -88,6 +155,7 @@ const TaskProvider = (props) => {
         deleteItem: deleteItemHandler,
         addItem: addItemHandler,
         completeItem: completeItemHandler,
+        incompleteItem: incompleteItemHandler,
         editItem: editItemHandler
     };
 

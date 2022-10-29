@@ -27,16 +27,8 @@ const Bar = (props) => {
             text: taskText,
             toDo: true,
         }
-
-        axios.post("http://localhost:4000/app/addTask", taskData)
-            .then(response => console.log(response.data))
-
-        axios.get("http://localhost:4000/app/addTask").then(resp => {
-            console.log("FRONTEND RESP", resp.data);
-        });
-
-        console.log("SAVED TASK: ", taskData);
         taskCtx.addItem(taskData);
+        console.log("SAVED TASK: ", taskData);
         setTaskText("");
     }
 

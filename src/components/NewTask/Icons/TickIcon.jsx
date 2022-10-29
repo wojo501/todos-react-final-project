@@ -7,7 +7,14 @@ const TickIcon = (props) => {
 
     const clickHandler = (event) => {
         event.preventDefault();
-        taskCtx.completeItem(props.id);
+
+        if (props.toDo) {
+            taskCtx.completeItem(props.id);
+        }
+        if (!props.toDo) {
+            taskCtx.incompleteItem(props.id)
+        }
+
     }
 
     return (
