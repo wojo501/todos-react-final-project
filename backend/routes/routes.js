@@ -18,9 +18,7 @@ router.post('/addTask', async (request, response) => {
     }
 })
 
-
-
-router.get('/addTask', async (request, response) => {
+router.get('/getTask', async (request, response) => {
     try {
         const tasks = await taskSchemaCopy.find()
         response.send(tasks)
@@ -30,7 +28,7 @@ router.get('/addTask', async (request, response) => {
     }
 })
 
-router.patch("/addTask", async (request, response) => {
+router.patch("/updateTask/status", async (request, response) => {
     try {
         const updatedTask = await taskSchemaCopy.findOne({ id: request.body.id })
         if (updatedTask.toDo) {
@@ -47,16 +45,17 @@ router.patch("/addTask", async (request, response) => {
     }
 })
 
-router.post('/removeTask', async (request, response) => {
+router.delete('/deleteTask/:taskId', async (request, response) => {
     try {
-        const deletedTask = await taskSchemaCopy.deleteOne({ id: request.body.id })
-        console.log(deletedTask)
+        const taskId = request.params.taskId;
+        const deletedTask = await taskSchemaCopy.deleteOne({ id: taskId })
+        console.log("DELETED TASK", deletedTask)
     } catch (error) {
         response.json(error)
     }
 })
 
-router.patch("/removeTask", async (request, response) => {
+router.patch("/updateTask/text", async (request, response) => {
     try {
         const updatedTask = await taskSchemaCopy.findOne({ id: request.body.id })
         updatedTask.text = request.body.text

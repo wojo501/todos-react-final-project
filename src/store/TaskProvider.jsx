@@ -2,36 +2,49 @@ import TaskContext from "./task-context";
 import { useReducer, useCallback, useEffect } from "react";
 import axios from "axios";
 
+const States = Object.freeze({
+    RELOAD: "RELOAD",
+    ADD: "ADD",
+    COMPLETE: "COMPLETE",
+    INCOMPLETE: "INCOMPLETE",
+    DELETE: "DELETE",
+    EDIT: "EDIT"
+});
+
 const defaultTaskState = {
     items: []
 };
+
 // FIXME
-// change post request to delete request while deleting
-// add enum to file instead of string commands
-// fix different paths to query parameters
-// optimize task reducer, taskProvider funcion 
+// change text (DONE) to strikethrough text
+
+const findItemById = (itemsArray, id) => {
+    const changedElemIndex = itemsArray.findIndex((elem) => {
+        return elem.id === id.toString()
+    })
+    const updatedElem = itemsArray[changedElemIndex]
+    return [updatedElem, changedElemIndex]
+}
 
 const taskReducer = (state, action) => {
 
-    if (action.type === "RELOAD") {
-        console.log("DATA RELOAD")
+    if (action.type === States.RELOAD) {
         return {
             items: action.itemsArr
         }
     }
 
-    if (action.type === "ADD") {
+    if (action.type === States.ADD) {
         const updatedItems = state.items.concat(action.item);
         return {
             items: updatedItems
         }
     };
 
-    if (action.type === "COMPLETE") {
-        const changedElemIndex = state.items.findIndex((elem) => {
-            return elem.id === action.id.toString()
-        })
-        const updatedElem = state.items[changedElemIndex]
+    if (action.type === States.COMPLETE) {
+        const updatedElemAndIdx = findItemById(state.items, action.id)
+        const updatedElem = updatedElemAndIdx[0];
+        const changedElemIndex = updatedElemAndIdx[1];
         if (updatedElem.toDo) {
             updatedElem.text = "(DONE) " + updatedElem.text;
         }
@@ -44,11 +57,11 @@ const taskReducer = (state, action) => {
         }
     }
 
-    if (action.type === "INCOMPLETE") {
-        const changedElemIndex = state.items.findIndex((elem) => {
-            return elem.id === action.id.toString()
-        })
-        const updatedElem = state.items[changedElemIndex]
+    if (action.type === States.INCOMPLETE) {
+        const updatedElemAndIdx = findItemById(state.items, action.id)
+        const updatedElem = updatedElemAndIdx[0];
+        const changedElemIndex = updatedElemAndIdx[1];
+
         if (!updatedElem.toDo) {
             updatedElem.text = updatedElem.text.replace("(DONE) ", "")
         }
@@ -61,7 +74,7 @@ const taskReducer = (state, action) => {
         }
     }
 
-    if (action.type === "DELETE") {
+    if (action.type === States.DELETE) {
         const updatedItems = state.items.filter((item) => {
             return item.id !== action.id.toString()
         })
@@ -70,23 +83,21 @@ const taskReducer = (state, action) => {
         }
     }
 
-    if (action.type === "EDIT") {
-        const editItemIndex = state.items.findIndex((elem) => {
-            return elem.id === action.item.id.toString()
-        })
-        const existingItem = state.items[editItemIndex]
+    if (action.type === States.EDIT) {
+        const updatedElemAndIdx = findItemById(state.items, action.item.id)
+        const updatedElem = updatedElemAndIdx[0];
+        const changedElemIndex = updatedElemAndIdx[1];
+
         const updatedItem = {
-            ...existingItem,
+            ...updatedElem,
             text: action.item.text
         }
         const updatedItems = [...state.items];
-        updatedItems[editItemIndex] = updatedItem;
+        updatedItems[changedElemIndex] = updatedItem;
         return {
             items: updatedItems
         }
     }
-
-
 
     return defaultTaskState
 }
@@ -97,7 +108,7 @@ const TaskProvider = (props) => {
 
     const fetchTaskHandler = useCallback(async () => {
         try {
-            const response = await fetch("http://localhost:4000/app/addTask")
+            const response = await fetch("http://localhost:4000/app/getTask")
             if (!response.ok) {
                 throw new Error("GET error")
             }
@@ -111,7 +122,6 @@ const TaskProvider = (props) => {
 
     useEffect(() => {
         fetchTaskHandler().then((taskData) => {
-            console.log("USE EFFECT")
             dispatchTaskAction({
                 type: "RELOAD",
                 itemsArr: taskData
@@ -120,32 +130,33 @@ const TaskProvider = (props) => {
     }, []);
 
     const deleteItemHandler = async (id) => {
-        dispatchTaskAction({ type: "DELETE", id: id });
-        axios.post("http://localhost:4000/app/removeTask", { id: id })
+        dispatchTaskAction({ type: States.DELETE, id: id });
+        const url = "http://localhost:4000/app/deleteTask/" + id.toString()
+        axios.delete(url)
             .then(response => console.log(response.data))
 
     };
 
     const completeItemHandler = (id) => {
-        dispatchTaskAction({ type: "COMPLETE", id: id });
-        axios.patch("http://localhost:4000/app/addTask", { id: id })
+        dispatchTaskAction({ type: States.COMPLETE, id: id });
+        axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
             .then(response => console.log(response.data))
     };
 
     const incompleteItemHandler = (id) => {
-        dispatchTaskAction({ type: "INCOMPLETE", id: id });
-        axios.patch("http://localhost:4000/app/addTask", { id: id })
+        dispatchTaskAction({ type: States.INCOMPLETE, id: id });
+        axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
             .then(response => console.log(response.data))
     };
 
     const editItemHandler = (item) => {
-        dispatchTaskAction({ type: "EDIT", item: item });
-        axios.patch("http://localhost:4000/app/removeTask", { text: item.text, id: item.id })
+        dispatchTaskAction({ type: States.EDIT, item: item });
+        axios.patch("http://localhost:4000/app/updateTask/text", { text: item.text, id: item.id })
             .then(response => console.log(response.data))
     };
 
     const addItemHandler = (item) => {
-        dispatchTaskAction({ type: "ADD", item: item });
+        dispatchTaskAction({ type: States.ADD, item: item });
         axios.post("http://localhost:4000/app/addTask", item)
             .then(response => console.log(response.data))
     }
