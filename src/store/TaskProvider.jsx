@@ -50,7 +50,6 @@ const taskReducer = (state, action) => {
         }
         updatedElem.toDo = false;
         const updatedItems = [...state.items]
-        console.log(updatedElem)
         updatedItems[changedElemIndex] = updatedElem
         return {
             items: updatedItems
@@ -67,7 +66,6 @@ const taskReducer = (state, action) => {
         }
         updatedElem.toDo = true;
         const updatedItems = [...state.items]
-        console.log(updatedElem)
         updatedItems[changedElemIndex] = updatedElem
         return {
             items: updatedItems
@@ -130,35 +128,59 @@ const TaskProvider = (props) => {
     }, []);
 
     const deleteItemHandler = async (id) => {
-        dispatchTaskAction({ type: States.DELETE, id: id });
         const url = "http://localhost:4000/app/deleteTask/" + id.toString()
         axios.delete(url)
-            .then(response => console.log(response.data))
-
+            .then(response => {
+                if (response.statusText == "OK") {
+                    dispatchTaskAction({ type: States.DELETE, id: response.data });
+                } else {
+                    console.log(response)
+                }
+            })
     };
 
     const completeItemHandler = (id) => {
-        dispatchTaskAction({ type: States.COMPLETE, id: id });
         axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
-            .then(response => console.log(response.data))
+            .then(response => {
+                if (response.statusText == "OK") {
+                    dispatchTaskAction({ type: States.COMPLETE, id: response.data });
+                } else {
+                    console.log(response)
+                }
+            })
     };
 
     const incompleteItemHandler = (id) => {
-        dispatchTaskAction({ type: States.INCOMPLETE, id: id });
         axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
-            .then(response => console.log(response.data))
+            .then(response => {
+                if (response.statusText == "OK") {
+                    dispatchTaskAction({ type: States.INCOMPLETE, id: response.data });
+                } else {
+                    console.log(response)
+                }
+            })
     };
 
     const editItemHandler = (item) => {
-        dispatchTaskAction({ type: States.EDIT, item: item });
         axios.patch("http://localhost:4000/app/updateTask/text", { text: item.text, id: item.id })
-            .then(response => console.log(response.data))
+            .then(response => {
+                if (response.statusText == "OK") {
+                    dispatchTaskAction({ type: States.EDIT, item: response.data });
+                } else {
+                    console.log(response)
+                }
+            })
     };
 
     const addItemHandler = (item) => {
-        dispatchTaskAction({ type: States.ADD, item: item });
         axios.post("http://localhost:4000/app/addTask", item)
-            .then(response => console.log(response.data))
+            .then(response => {
+                if (response.statusText == "OK") {
+                    dispatchTaskAction({ type: States.ADD, item: response.data });
+                } else {
+                    console.log(response)
+                }
+            })
     }
 
     const taskContext = {

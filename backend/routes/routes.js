@@ -22,7 +22,6 @@ router.get('/getTask', async (request, response) => {
     try {
         const tasks = await taskSchemaCopy.find()
         response.send(tasks)
-        console.log(tasks)
     } catch (error) {
         response.json(error)
     }
@@ -39,7 +38,7 @@ router.patch("/updateTask/status", async (request, response) => {
             updatedTask.toDo = true;
         }
         await updatedTask.save()
-        console.log("updatedTask: ", updatedTask)
+        response.json(request.body.id)
     } catch (error) {
         response.json(error)
     }
@@ -49,9 +48,11 @@ router.delete('/deleteTask/:taskId', async (request, response) => {
     try {
         const taskId = request.params.taskId;
         const deletedTask = await taskSchemaCopy.deleteOne({ id: taskId })
-        console.log("DELETED TASK", deletedTask)
+        if (deletedTask.acknowledged) {
+            response.json(taskId);
+        }
     } catch (error) {
-        response.json(error)
+        response.json(error);
     }
 })
 
@@ -60,7 +61,7 @@ router.patch("/updateTask/text", async (request, response) => {
         const updatedTask = await taskSchemaCopy.findOne({ id: request.body.id })
         updatedTask.text = request.body.text
         await updatedTask.save()
-        console.log("updatedTask: ", updatedTask)
+        response.json(updatedTask)
     } catch (error) {
         response.json(error)
     }
