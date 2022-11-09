@@ -128,10 +128,10 @@ const TaskProvider = (props) => {
     }, []);
 
     const deleteItemHandler = async (id) => {
-        const url = "http://localhost:4000/app/deleteTask/" + id.toString()
+        const url = `http://localhost:4000/app/deleteTask/${id.toString()}`
         axios.delete(url)
             .then(response => {
-                if (response.statusText == "OK") {
+                if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.DELETE, id: response.data });
                 } else {
                     console.log(response)
@@ -142,7 +142,7 @@ const TaskProvider = (props) => {
     const completeItemHandler = (id) => {
         axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
             .then(response => {
-                if (response.statusText == "OK") {
+                if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.COMPLETE, id: response.data });
                 } else {
                     console.log(response)
@@ -153,7 +153,7 @@ const TaskProvider = (props) => {
     const incompleteItemHandler = (id) => {
         axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
             .then(response => {
-                if (response.statusText == "OK") {
+                if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.INCOMPLETE, id: response.data });
                 } else {
                     console.log(response)
@@ -164,7 +164,7 @@ const TaskProvider = (props) => {
     const editItemHandler = (item) => {
         axios.patch("http://localhost:4000/app/updateTask/text", { text: item.text, id: item.id })
             .then(response => {
-                if (response.statusText == "OK") {
+                if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.EDIT, item: response.data });
                 } else {
                     console.log(response)
@@ -175,7 +175,7 @@ const TaskProvider = (props) => {
     const addItemHandler = (item) => {
         axios.post("http://localhost:4000/app/addTask", item)
             .then(response => {
-                if (response.statusText == "OK") {
+                if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.ADD, item: response.data });
                 } else {
                     console.log(response)
