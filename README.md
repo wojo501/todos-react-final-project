@@ -1,7 +1,7 @@
 ## todosReactFinalProject
-# To do list with React and MongoDB
+# To do list with React and MongoDB ;)
 
-It is project which contains knowledge gaind about React and MongoDB. \
+It is a project which contains knowledge gaind about React and MongoDB. \
 Developed front-end and full backend. \
 Simple way of working - application takes new tasks and add it to data base. Tasks could be modified by front-end.\
 <br />
