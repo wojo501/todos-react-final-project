@@ -1,14 +1,18 @@
 ## todosReactFinalProject
 # To do list with React and MongoDB
 
-It is project which contains knowledge gaind about React and MongoDB. 
-Developed front-end and full backend. 
-Simple way of working - application takes new tasks and add it to data base. Tasks could be modified by front-end.
-
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-
+It is project which contains knowledge gaind about React and MongoDB. \
+Developed front-end and full backend. \
+Simple way of working - application takes new tasks and add it to data base. Tasks could be modified by front-end.\
+<br />
+Front:
+<br />
+![alt text](https://github.com/wojo501/todosReactFinalProject/blob/master/images/front.PNG)
+<br />
+Database:
+<br />
+![alt text](https://github.com/wojo501/todosReactFinalProject/blob/master/images/database.PNG)
+<br />
 
 
 # Getting Started with Create React App
