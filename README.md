@@ -1,3 +1,16 @@
+## todosReactFinalProject
+# To do list with React and MongoDB
+
+It is project which contains knowledge gaind about React and MongoDB. 
+Developed front-end and full backend. 
+Simple way of working - application takes new tasks and add it to data base. Tasks could be modified by front-end.
+
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
