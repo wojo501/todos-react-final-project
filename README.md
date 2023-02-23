@@ -6,13 +6,13 @@ Developed front-end and full backend. \
 Simple way of working - application takes new tasks and add it to data base. Tasks could be modified by front-end.\
 <br />
 Front:
-<br />
+<br /><br />
 ![alt text](https://github.com/wojo501/todosReactFinalProject/blob/master/images/front.PNG)
-<br />
+<br /><br />
 Database:
-<br />
+<br /><br />
 ![alt text](https://github.com/wojo501/todosReactFinalProject/blob/master/images/database.PNG)
-<br />
+<br /><br /><br />
 
 
 # Getting Started with Create React App
