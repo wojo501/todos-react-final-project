@@ -2,6 +2,8 @@ import TaskContext from "./task-context";
 import { useReducer, useCallback, useEffect } from "react";
 import axios from "axios";
 
+const backend = "http://localhost:4000";
+
 const States = Object.freeze({
     RELOAD: "RELOAD",
     ADD: "ADD",
@@ -106,7 +108,7 @@ const TaskProvider = (props) => {
 
     const fetchTaskHandler = useCallback(async () => {
         try {
-            const response = await fetch("http://localhost:4000/app/getTask")
+            const response = await fetch(backend + "/app/getTask")
             if (!response.ok) {
                 throw new Error("GET error")
             }
@@ -128,7 +130,7 @@ const TaskProvider = (props) => {
     }, []);
 
     const deleteItemHandler = async (id) => {
-        const url = `http://localhost:4000/app/deleteTask/${id.toString()}`
+        const url = backend + `/app/deleteTask/${id.toString()}`
         axios.delete(url)
             .then(response => {
                 if (response.statusText === "OK") {
@@ -140,7 +142,7 @@ const TaskProvider = (props) => {
     };
 
     const completeItemHandler = (id) => {
-        axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
+        axios.patch(backend + "/app/updateTask/status", { id: id })
             .then(response => {
                 if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.COMPLETE, id: response.data });
@@ -151,7 +153,7 @@ const TaskProvider = (props) => {
     };
 
     const incompleteItemHandler = (id) => {
-        axios.patch("http://localhost:4000/app/updateTask/status", { id: id })
+        axios.patch(backend + "/app/updateTask/status", { id: id })
             .then(response => {
                 if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.INCOMPLETE, id: response.data });
@@ -162,7 +164,7 @@ const TaskProvider = (props) => {
     };
 
     const editItemHandler = (item) => {
-        axios.patch("http://localhost:4000/app/updateTask/text", { text: item.text, id: item.id })
+        axios.patch(backend + "/app/updateTask/text", { text: item.text, id: item.id })
             .then(response => {
                 if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.EDIT, item: response.data });
@@ -173,7 +175,7 @@ const TaskProvider = (props) => {
     };
 
     const addItemHandler = (item) => {
-        axios.post("http://localhost:4000/app/addTask", item)
+        axios.post(backend + "/app/addTask", item)
             .then(response => {
                 if (response.statusText === "OK") {
                     dispatchTaskAction({ type: States.ADD, item: response.data });
