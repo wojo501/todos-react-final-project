@@ -2,7 +2,7 @@ import TaskContext from "./task-context";
 import { useReducer, useCallback, useEffect } from "react";
 import axios from "axios";
 
-const backend = "http://localhost:4000";
+const backend = "https://fair-teddy-bear.cyclic.app";
 
 const States = Object.freeze({
     RELOAD: "RELOAD",
