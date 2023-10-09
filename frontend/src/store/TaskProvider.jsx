@@ -133,7 +133,7 @@ const TaskProvider = (props) => {
         const url = backend + `/app/deleteTask/${id.toString()}`
         axios.delete(url)
             .then(response => {
-                if (response.statusText === "OK") {
+                if (response.status === 200) {
                     dispatchTaskAction({ type: States.DELETE, id: response.data });
                 } else {
                     console.log(response)
@@ -144,7 +144,7 @@ const TaskProvider = (props) => {
     const completeItemHandler = (id) => {
         axios.patch(backend + "/app/updateTask/status", { id: id })
             .then(response => {
-                if (response.statusText === "OK") {
+                if (response.status === 200) {
                     dispatchTaskAction({ type: States.COMPLETE, id: response.data });
                 } else {
                     console.log(response)
@@ -155,7 +155,7 @@ const TaskProvider = (props) => {
     const incompleteItemHandler = (id) => {
         axios.patch(backend + "/app/updateTask/status", { id: id })
             .then(response => {
-                if (response.statusText === "OK") {
+                if (response.status === 200) {
                     dispatchTaskAction({ type: States.INCOMPLETE, id: response.data });
                 } else {
                     console.log(response)
@@ -166,7 +166,7 @@ const TaskProvider = (props) => {
     const editItemHandler = (item) => {
         axios.patch(backend + "/app/updateTask/text", { text: item.text, id: item.id })
             .then(response => {
-                if (response.statusText === "OK") {
+                if (response.status === 200) {
                     dispatchTaskAction({ type: States.EDIT, item: response.data });
                 } else {
                     console.log(response)
@@ -177,7 +177,7 @@ const TaskProvider = (props) => {
     const addItemHandler = (item) => {
         axios.post(backend + "/app/addTask", item)
             .then(response => {
-                if (response.statusText === "OK") {
+                if (response.status === 200) {
                     dispatchTaskAction({ type: States.ADD, item: response.data });
                 } else {
                     console.log(response)
