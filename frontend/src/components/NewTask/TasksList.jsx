@@ -21,6 +21,7 @@ const TasksList = (props) => {
                     id={task.id}
                     key={task.id}
                     text={task.text}
+                    toDo={task.toDo}
                 />
             ))}
         </ul>

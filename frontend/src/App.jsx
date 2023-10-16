@@ -1,17 +1,23 @@
-import React from 'react';
-import './App.css';
-import Bar from './components/InputBar/Bar';
-import TasksList from './components/NewTask/TasksList';
-import TaskProvider from './store/TaskProvider';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import TasksPage from './pages/Tasks';
+import HomePage from './pages/Home';
+import LoginPage, {action as loginPageAcion} from './pages/Login';
+import RegisterPage, {action as registerPageAction} from './pages/Register';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    children: [
+      {index: true, element:<HomePage/>},
+      {path: "login", element:<LoginPage/>, action: loginPageAcion},
+      {path: "register", element:<RegisterPage/>, action: registerPageAction},
+      {path: ":userId", element: <TasksPage/>}
+    ],
+  }
+])
 
 function App() {
-  return (
-    <TaskProvider>
-      <Bar />
-      <TasksList />
-    </TaskProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

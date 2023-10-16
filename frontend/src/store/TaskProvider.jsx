@@ -1,8 +1,10 @@
 import TaskContext from "./task-context";
 import { useReducer, useCallback, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const backend = "https://fair-teddy-bear.cyclic.app";
+// const backend = "http://localhost:3000";
 
 const States = Object.freeze({
     RELOAD: "RELOAD",
@@ -104,11 +106,12 @@ const taskReducer = (state, action) => {
 
 
 const TaskProvider = (props) => {
+    const params = useParams();
     const [taskState, dispatchTaskAction] = useReducer(taskReducer, defaultTaskState)
 
     const fetchTaskHandler = useCallback(async () => {
         try {
-            const response = await fetch(backend + "/app/getTask")
+            const response = await fetch(`${backend}/app/${params.userId}/getTasks`)
             if (!response.ok) {
                 throw new Error("GET error")
             }

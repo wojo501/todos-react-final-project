@@ -1,16 +1,13 @@
-.button{
-    height: 30px;
-    font-weight: bold;
-    border-radius: 5px;
-    font: inherit;
-    width: 100%;
-    color: rgb(13, 22, 29);
-    background: rgb(135, 176, 213);
-    box-shadow: 2px 2px 4px rgba(171, 13, 182, 0.26);
-    cursor: pointer;
-    margin: 1rem;
-}
 
+.button {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #7439db;
+  margin: 10px;
+}
 .button:focus {
     outline: thick double rgb(135, 176, 213);
   }

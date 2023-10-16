@@ -1,4 +1,3 @@
-import { icon } from '@fortawesome/fontawesome-svg-core';
 import React, { useContext, useState, useEffect, useRef } from 'react'
 import DeleteIcon from './Icons/DeleteIcon';
 import EditIcon from './Icons/EditIcon';
@@ -45,6 +44,7 @@ const Task = (props) => {
             className={classes["task"]}
             id={props.id}
             key={props.id}
+            style={{ backgroundColor: props.toDo ? 'yellow' : 'white' }}
         >
             <form className={classes.form} onSubmit={inputHandler}>
                 {edit ? (

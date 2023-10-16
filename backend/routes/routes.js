@@ -1,14 +1,65 @@
 const { response } = require("express");
 const express = require("express");
-const { update } = require("../models/taskModel");
 const router = express.Router();
 const taskSchemaCopy = require("../models/taskModel")
+const userSchemaCopy = require("../models/userModel")
+
+router.post('/registerUser', async (request, response) => {
+    try {
+        const user = await userSchemaCopy.findOne({ 
+            email: request.body.email
+        });
+
+        if (user) {
+            response.status(423).send({
+                message: "This email already exists."
+            });
+        } else {
+            const addedUser = await userSchemaCopy.create({
+                id: request.body.id,
+                name: request.body.name,
+                email: request.body.email,
+                password: request.body.password 
+            });
+
+            const newUser = await addedUser.save();
+            response.status(200).json({
+                userId: newUser.id
+            });
+        }
+    } catch (error) {
+        response.json(error);
+    }
+});
+
+
+router.post('/loginUser', async (request, response) => {
+    try {
+        const user = await userSchemaCopy.findOne({ 
+            email: request.body.email, 
+            password: request.body.password 
+        });
+
+        if (!user) {
+            response.status(422).send({
+                message: "User not found."
+            });
+        }
+
+        response.status(200).json({
+            userId: user.id
+        });
+    } catch (error) {
+        response.status(500).json({ error: "Internal server error" });
+    }
+});
 
 router.post('/addTask', async (request, response) => {
     try {
         const addedTask = await taskSchemaCopy.create({
             text: request.body.text,
-            id: request.body.id
+            id: request.body.id,
+            userId: request.body.userId,
         })
         const result = await addedTask.save()
         response.json(result)
@@ -17,14 +68,18 @@ router.post('/addTask', async (request, response) => {
     }
 })
 
-router.get('/getTask', async (request, response) => {
+router.get('/:userId/getTasks', async (request, response) => {
     try {
-        const tasks = await taskSchemaCopy.find()
-        response.send(tasks)
+        const userId = request.params.userId; // Get the userId from the URL
+
+        const tasks = await taskSchemaCopy.find({ userId }); // Use userId as a filter
+
+        response.json(tasks); // Send the tasks as a JSON response
     } catch (error) {
-        response.json(error)
+        response.status(500).json({ error: "Internal server error" });
     }
-})
+});
+
 
 router.patch("/updateTask/status", async (request, response) => {
     try {

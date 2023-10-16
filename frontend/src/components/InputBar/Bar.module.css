@@ -12,12 +12,10 @@
 }
 
 .input input{
-    /* width: 70%; */
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 10px;
     font: inherit;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    height: 30px;
-  
+    margin: 10px;
 }

@@ -1,23 +1,22 @@
 const mongoose = require("mongoose");
 
-const taskSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true
     },
-    userId: {
+    name: {
         type: String,
         required: true
     },
-    text: {
+    email: {
         type: String,
         required: true
     },
-    toDo: {
-        type: Boolean,
-        default: true
+    password: {
+        type: String,
+        required: true
     }
 })
 
-module.exports = mongoose.model('mytask', taskSchema)
-
+module.exports = mongoose.model('myuser', userSchema)
