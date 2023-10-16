@@ -10,13 +10,22 @@ This project was created after completing the [React - The Complete Guide (incl.
 <br />
 Front:
 <br /><br />
-![Login Page](https://github.com/wojo501/todosReactFinalProject/blob/master/images/loginPage.png)
+<p align="center">
+  <img src="https://github.com/wojo501/todosReactFinalProject/blob/master/images/loginPage.png" alt="Login Page">
+</p>
 <br /><br />
-![Register Page](https://github.com/wojo501/todosReactFinalProject/blob/master/images/registerPage.png)
+<p align="center">
+  <img src="https://github.com/wojo501/todosReactFinalProject/blob/master/images/registerPage.png" alt="Register Page">
+</p>
 <br /><br />
-![Tasks Page](https://github.com/wojo501/todosReactFinalProject/blob/master/images/tasksPage.png)
+<p align="center">
+  <img src="https://github.com/wojo501/todosReactFinalProject/blob/master/images/tasksPage.png" alt="Tasks Page">
+</p>
 <br /><br />
-![Database](https://github.com/wojo501/todosReactFinalProject/blob/master/images/database.PNG)
+<p align="center">
+  <img src="https://github.com/wojo501/todosReactFinalProject/blob/master/images/database.PNG" alt="Database">
+</p>
 <br /><br /><br />
+
 
 
